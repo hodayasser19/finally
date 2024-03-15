@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer"
+    />
+    <link rel="stylesheet" href="{{url_for('static', filename='blood.css')}}">
+    <link rel="stylesheet" href="{{url_for('static', filename='bootstrap.min.css')}}">
+    <title>التبرع بالدم</title>
+</head>
+
+<body>
+    <div class="bg1">
+        <form method="POST" action="/result">
+            <div class="container bg-white p-3 mt-5 shadow-lg rounded">
+                <div class="row">
+                    <h1 class="color-h1">التبرع بالدم</h1>
+                    <div class="col-md-6">
+                        <div class="inputGroup">
+                            <label for="name">درجة الهيموجلوبين <span class="hint">(الرنج المناسب: 12 - 16 غ/دل)</span></label>
+                            <input type="number" required autocomplete="off" step="0.1" name="hemo" min="12" max="16">
+
+                        </div>
+                        <div class="inputGroup">
+                            <label for="name">معامل النسب الوراثي <span class="hint">(الرنج المناسب: 0 - 10 )</span></label>
+                            <input type="number" required autocomplete="off" step="0.1" name="nasb" min="0" max="10">
+
+                        </div>
+                        <div class="inputGroup">
+                            <label for="name">العمر <span class="hint">(الرنج المناسب: بين 18 و 65 سنة)</span></label>
+                            <input type="number" required autocomplete="off" name="age" min="18" max="65">
+
+                        </div>
+                        <div class="inputGroup">
+                            <label for="name">BMI <span class="hint">(الرنج المناسب: 0 - 50 غ/دل)</span></label>
+                            <input type="number" required autocomplete="off" name="bmi" min="0" max="50">
+
+                        </div>
+                        <div class="inputGroup">
+                            <label for="name">النوع</label>
+                            <select name="sex" id="sexSelect">
+                                <option selected></option>
+                                <option value="0">ذكر</option>
+                                <option value="1">انثى</option>
+                            </select>
+
+                        </div>
+                        <div class="inputGroup" id="hamlGroup" style="display:none;">
+                            <label for="name">هل يوجد حمل</label>
+                            <select name="haml">
+                               
+                                <option value="1">نعم</option>
+                                <option value="0">لا</option>
+                            </select>
+
+                        </div>
+                        <div class="inputGroup">
+                            <label for="name">هل أنت مدخن</label>
+                            <select name="smoke">
+                                <option selected></option>
+                                <option value="1">نعم</option>
+                                <option value="0">لا</option>
+                            </select>
+
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="inputGroup">
+                            <label for="name">الأملاح في النظام <span class="hint">(الرنج المناسب : 0 - 500 )</span></label>
+                            <input type="number" required autocomplete="off" name="amla7" min="0" max="500">
+
+                        </div>
+                        <div class="inputGroup">
+                            <label for="name">استهلاك الكحول اليومي <span class="hint">(الرنج المناسب: 0 - 10 )</span></label>
+                            <input type="number" required autocomplete="off" step="0.1" name="k7owl" min="0" max="10">
+
+                        </div>
+                        <div class="inputGroup">
+                            <label for="name"> ما هي درجه التوتر</label>
+                            <select name="aghad">
+                                <option selected></option>
+                                <option value="1"> اولى </option>
+                                <option value="2">تانيه </option>
+                                <option value="3"> تالته </option>
+                            </select>
+
+                        </div>
+                        <div class="inputGroup">
+                            <label for="name">هل بوجد فشل كلوي مزمن</label>
+                            <select name="fshl">
+                                <option selected></option>
+                                <option value="1">نعم</option>
+                                <option value="0">لا</option>
+                            </select>
+
+                        </div>
+                        <div class="inputGroup">
+                            <label for="name">هل لديك اضطرابات الغدة</label>
+                            <select name="8oda">
+                                <option selected></option>
+                                <option value="1">نعم</option>
+                                <option value="0">لا</option>
+                            </select>
+
+                        </div>
+                        <div class="inputGroup">
+                            <label for="name">معدل النشاط اليومي</label>
+                            <input type="number" required autocomplete="off" name="activite">
+
+                        </div>
+                        <center>
+                            <input type="submit" class="b1" value="تحقق من التبرع">
+                        </center>
+                    </div>
+                    <center>
+                        {% if label == 0 %}
+                        <div class="result-message">وفقا للبيانات المدخلة هذا الشخص لا يسمح له بالتبرع بالدم لأنه يعاني من بعض المشاكل الصحية أو الأمراض.</div>
+                        {% elif label == 1 %}
+                        <div class="result-message">وفقا للبيانات المدخلة يسمح لك بالتبرع بالدم بشكل مطمئن.</div>
+                        {% endif %}
+                    </center>
+                </div>
+            </div>
+        </form>
+    </div>
+    <script>
+        document.getElementById('sexSelect').addEventListener('change', function() {
+            var selectedValue = this.value;
+            var hamlGroup = document.getElementById('hamlGroup');
+            if (selectedValue === '1') {
+                hamlGroup.style.display = 'block';
+            } else {
+                hamlGroup.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+
+</html>
